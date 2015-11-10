@@ -1,11 +1,6 @@
-/*
-*
-* HTML5: CSS3 & JavaScript Rubik's cube
-* Rubik's Cube ® used by permission of Seven Towns Limited.
-* http://www.rubiks.com
-*
-*/
-
+console.log('initializing cube script initialized');
+initCube = function (){
+console.log('initializing cube');
 YUI.add('rubik-queue', function (Y) {
 
     Queue = function (config) {
@@ -200,17 +195,17 @@ YUI.add('rubik', function (Y) {
            this._cube.on('transitionend',this._endTransition,this);
            this._cube.on('webkitTransitionEnd',this._endTransition,this);
            
-           this._container.on('gesturemovestart',this._onTouchCube,{preventDefault:true},this);
-           this._container.on('gesturemove',this._onMoveCube,{preventDefault:true},this);
-           this._container.on('gesturemoveend',this._onEndCube,{preventDefault:true},this);
+           // this._container.on('gesturemovestart',this._onTouchCube,{preventDefault:true},this);
+           // this._container.on('gesturemove',this._onMoveCube,{preventDefault:true},this);
+           // this._container.on('gesturemoveend',this._onEndCube,{preventDefault:true},this);
            
-           this._container.on('gesturestart',this._multiTouchStart,this);
-           this._container.on('gesturechange',this._multiTouchMove,this);
-           this._container.on('gestureend',this._multiTouchEnd,this);
+           // this._container.on('gesturestart',this._multiTouchStart,this);
+           // this._container.on('gesturechange',this._multiTouchMove,this);
+           // this._container.on('gestureend',this._multiTouchEnd,this);
 
-           this._solve.on('gesturemovestart',this._solveFake,{preventDefault:true},this);
-           this._undo.on('gesturemovestart',this._undoMove,{preventDefault:true},this);
-           this._redo.on('gesturemovestart',this._redoMove,{preventDefault:true},this);
+           // this._solve.on('gesturemovestart',this._solveFake,{preventDefault:true},this);
+           // this._undo.on('gesturemovestart',this._undoMove,{preventDefault:true},this);
+           // this._redo.on('gesturemovestart',this._redoMove,{preventDefault:true},this);
 
            if (Y.UA.mobile) {
                 //this._rotation.on('gesturestart',this._onRotationFocus,this);
@@ -218,13 +213,13 @@ YUI.add('rubik', function (Y) {
                 //we support it by default:
                 this._enableRotation = true;
             } else {
-                this._rotation.on('click',this._onRotationToggle,this);
-                Y.on('keypress',Y.bind(this._keyPress,this));
+                //this._rotation.on('click',this._onRotationToggle,this);
+                //Y.on('keypress',Y.bind(this._keyPress,this));
             }
 
 
-           Y.on('orientationchange',Y.bind(this._changeOrientation,this));
-           Y.one('body').on('gesturemovestart',this._checkScroll,{},this);
+           //Y.on('orientationchange',Y.bind(this._changeOrientation,this));
+           //Y.one('body').on('gesturemovestart',this._checkScroll,{},this);
         },
         _keyPress: function (e) {
             e.halt();
@@ -722,3 +717,4 @@ Y.Rubik = Rubik;
 },"0.0.1",{
     requires:['rubik-queue','yui-later','node','transition','event','event-delegate','event-gestures']
 });
+}
