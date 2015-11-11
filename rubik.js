@@ -205,7 +205,7 @@ YUI.add('rubik', function (Y) {
 
            // this._solve.on('gesturemovestart',this._solveFake,{preventDefault:true},this);
            // this._undo.on('gesturemovestart',this._undoMove,{preventDefault:true},this);
-            this._redo.on('gesturemovestart',this._redoMove,{preventDefault:true},this);
+           //this._redo.on('gesturemovestart',this._redoMove,{preventDefault:true},this);
 
            if (Y.UA.mobile) {
                 //this._rotation.on('gesturestart',this._onRotationFocus,this);
