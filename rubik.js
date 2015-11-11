@@ -181,7 +181,7 @@ YUI.add('rubik', function (Y) {
             this._solve = Y.one(cfg.solve || '.solve');
             this._undo = Y.one(cfg.undo || '.undo');
             this._redo = Y.one(cfg.redo || '.redo');
-            this._queue = new Y.Queue();
+            this._queue = cfg.queue || new Y.Queue();
             this._cube.append(this._plane);
             this._expectingTransition = false;
             this._setScroll();
@@ -205,7 +205,7 @@ YUI.add('rubik', function (Y) {
 
            // this._solve.on('gesturemovestart',this._solveFake,{preventDefault:true},this);
            // this._undo.on('gesturemovestart',this._undoMove,{preventDefault:true},this);
-           // this._redo.on('gesturemovestart',this._redoMove,{preventDefault:true},this);
+            this._redo.on('gesturemovestart',this._redoMove,{preventDefault:true},this);
 
            if (Y.UA.mobile) {
                 //this._rotation.on('gesturestart',this._onRotationFocus,this);
@@ -240,6 +240,7 @@ YUI.add('rubik', function (Y) {
             var movement = this._queue.redo();
             this._expectingTransition = true;
             movement && this._doMovement(movement, true);
+            return movement;
         },
         _solveFake: function (){
             this._solving = Y.later(350,this,function (){
@@ -646,7 +647,7 @@ YUI.add('rubik', function (Y) {
                 self = this;
             this._startRotationMode();
             this._cube.setStyles(cubeStyle).transition(transformIn);
-            this._tutorial.setStyles(css).transition(transformIn);
+            //this._tutorial.setStyles(css).transition(transformIn);
 
         },
         _changeToPortrait: function () {
@@ -661,13 +662,13 @@ YUI.add('rubik', function (Y) {
             this._startRotationMode();
 
             //show:
-            Y.later(300,this,function () {
-                this._tutorial.setStyles({display: 'block',opacity:1,bottom:'10px'});
-            });
+            // Y.later(300,this,function () {
+            //     this._tutorial.setStyles({display: 'block',opacity:1,bottom:'10px'});
+            // });
 
             //hide:
-            this._messages.setStyles(css);
-            this._controls.setStyles(css);
+            //this._messages.setStyles(css);
+            //this._controls.setStyles(css);
             this._cube.transition(cubeStyle);
             return true;
         },
@@ -676,8 +677,8 @@ YUI.add('rubik', function (Y) {
                 css = {display: 'block'};
 
             this._cube.transition(transformIn);
-            this._messages.setStyles(css).transition(transformIn);
-            this._controls.setStyles(css).transition(transformIn);
+            //this._messages.setStyles(css).transition(transformIn);
+            //this._controls.setStyles(css).transition(transformIn);
         },
         _changeToLandscape:function () {
             //stop gyroscope rotation
@@ -693,13 +694,13 @@ YUI.add('rubik', function (Y) {
 
             //show
             this._cube.setStyles(cubeStyle);
-            this._messages.setStyles(cssDisplay);
-            this._controls.setStyles(cssDisplay);
+            //this._messages.setStyles(cssDisplay);
+            //this._controls.setStyles(cssDisplay);
 
             //hide
-            this._tutorial.transition(tr,function () {
-                this.setStyles(cssDisplayNone);
-            });
+            // this._tutorial.transition(tr,function () {
+            //     this.setStyles(cssDisplayNone);
+            // });
 
             return false;//for the orientation(for sake of simplicity)
         },
