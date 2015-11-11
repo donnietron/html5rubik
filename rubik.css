@@ -159,8 +159,8 @@ background-image: -webkit-gradient(
     transform-style: preserve-3d;
 }
 .moving {
-    -webkit-transition: all .2s linear;
-    -moz-transition: all .2s linear;
+    -webkit-transition: all .1s linear;
+    -moz-transition: all .1s linear;
 }
 
 /*PLANE M */
