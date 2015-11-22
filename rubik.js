@@ -289,9 +289,9 @@ initCube = function (){
                 this._tempXY = pos;
             },
             _setInitialColors: function (){
-                for(var face in INIT_CONFIG){
-                    Y.all('.' +face + ' > div').addClass(INIT_CONFIG[face]);
-                }
+                // for(var face in INIT_CONFIG){
+                //     Y.all('.' +face + ' > div').addClass(INIT_CONFIG[face]);
+                // }
             },
             _endTransition: function (evt) {
                 if (this._expectingTransition){
@@ -474,7 +474,6 @@ initCube = function (){
                 plane.get('offsetHeight');
                 plane.addClass('moving');
                 plane.addClass(m.slice +'-'+ m.rotate);
-                
             },
             _attachToPlane:function (list) {
                 this._plane.setContent(list);
@@ -508,14 +507,14 @@ initCube = function (){
                     });
             },
             _changeTextOrientation:function (elm,rotation) {
-                var state = elm.get('className'),txt = state.split(' ',2),color = txt[0] + " ";
-                txt= txt[1] || txt[0];
-                switch(txt){
-                    case "textLeft": elm.replaceClass(txt, rotation == "left" ? 'textDown' : '');break;
-                    case "textRight":elm.replaceClass(txt, rotation == "left" ? '' : 'textDown');break;
-                    case "textDown": elm.replaceClass(txt, rotation == "left" ? 'textRight' : 'textLeft');break;
-                    default: elm.set('className',color + (rotation == "left" ? 'textLeft' : 'textRight') );break;
-                }
+                // var state = elm.get('className'),txt = state.split(' ',2),color = txt[0] + " ";
+                // txt= txt[1] || txt[0];
+                // switch(txt){
+                //     case "textLeft": elm.replaceClass(txt, rotation == "left" ? 'textDown' : '');break;
+                //     case "textRight":elm.replaceClass(txt, rotation == "left" ? '' : 'textDown');break;
+                //     case "textDown": elm.replaceClass(txt, rotation == "left" ? 'textRight' : 'textLeft');break;
+                //     default: elm.set('className',color + (rotation == "left" ? 'textLeft' : 'textRight') );break;
+                // }
             },
             //Reorient the content inside the cubics
             _reorientCubies:function () {
