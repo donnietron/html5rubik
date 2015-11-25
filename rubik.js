@@ -150,7 +150,13 @@ initCube = function (){
                 "rtr":"utl","rcr":"utc","rbr":"utr","dbr":"rtr","dbc":"rcr","dbl":"rbr","lbl":"dbr",
                 "lcl":"dbc","ltl":"dbl","utl":"lbl","utc":"lcl","utr":"ltl","btl":"btr","bcl":"btc",
                 "bbl":"btl","btc":"bcr","bbc":"bcl","btr":"bbr","bcr":"bbc","bbr":"bbl","bcc":"bcc"
-            }
+            },
+            'YZ-left':['UE','CE','DE'],
+            'YZ-right':['UE','CE','DE'],
+            'XY-left':['CS','FS','BS'],
+            'XY-right':['CS','FS','BS'],
+            'ZX-left':['LM','RM','CM'],
+            'ZX-right':['LM','RM','CM']
         };
           
         //Match the sides with css .class
@@ -448,7 +454,28 @@ initCube = function (){
                 this._cubeXY.x = this._tempXY.x;
                 this._cubeXY.y = this._tempXY.y;
             },
-            
+            _getCubieList:function (m) {
+                var selector = '.' + m.face + m.slice;
+                if('XYZ'.includes(m.face)){
+                    selector = CUBIE_MOVEMENTS[m.face + m.slice +'-' +m.rotate]
+                               .map(function(slice){
+                                   return '.'+slice;
+                               })
+                               .join(',');
+                }
+
+                return Y.all(selector);
+            },
+            _getPrimarySlice:function(m){
+                var slice;
+                switch(m.slice){
+                    case 'Y': slice = 'S'; break;
+                    case 'X': slice = 'M'; break;
+                    case 'Z': slice = 'E'; break;
+                    default: slice = m.slice;
+                }
+                return slice;
+            },
             _doMovement:function (m,fromQueue) {
                 //if this._moving && fromQueue 
                 if (this._moving)return;//we cancel if there is some movement going on
@@ -456,24 +483,24 @@ initCube = function (){
                 if(!fromQueue){
                     this._queue.add(m);
                 }
+
                 var plane = this._plane,
-                    list = Y.all('.' + m.face + m.slice),
+                    list = this._getCubieList(m),
                     origin;
 
                 this._movement = m;
                 this._moving = true;
                 this._attachToPlane(list);
 
-                switch (m.slice) {
+                switch (this._getPrimarySlice(m)) {
                     case 'M' : origin = '0 200px'; break;
                     case 'S'  : origin = '200px 200px'; break;
                     default : origin = '';
                 }
-
                 plane.setStyle('-webkit-transform-origin', origin); 
                 plane.get('offsetHeight');
                 plane.addClass('moving');
-                plane.addClass(m.slice +'-'+ m.rotate);
+                plane.addClass(this._getPrimarySlice(m)+'-'+ m.rotate);
             },
             _attachToPlane:function (list) {
                 this._plane.setContent(list);
@@ -482,9 +509,20 @@ initCube = function (){
                 var children = this._plane.get('children');
                 this._cube.append(children);
             },
+            _getCubieMovements:function (m) {
+                if('XYZ'.includes(m.face)) {
+                    return Y.merge.apply(null,(CUBIE_MOVEMENTS[m.face + m.slice +'-' +m.rotate]
+                            .map(function(slice){
+                                return CUBIE_MOVEMENTS[slice + '-' + m.rotate];
+                            })));
+                }
+                else {
+                    return CUBIE_MOVEMENTS[m.face + m.slice +'-' +m.rotate];
+                }
+            },
             _reorganizeCubies:function () {
                 var m = this._movement,
-                    changes = CUBIE_MOVEMENTS[m.face + m.slice +'-' +m.rotate],
+                    changes = this._getCubieMovements(m),
                     list = this._plane.get('children'),
                     tempCubies = {};
                     list.each(function (originCube,i) {
